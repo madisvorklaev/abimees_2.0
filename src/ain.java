@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class ain extends Application {
    static HashMap<String, Double> voolud = new HashMap<>();
    static HashMap<String, Integer> kanalid = new HashMap<>();
-    // public static void main(String[] args) {
+
         @Override
         public void start(Stage primaryStage) throws Exception{
 
@@ -15,6 +15,7 @@ public class ain extends Application {
         readfile.readFile();
         readfile.closeFile();
         new gui();
+            System.out.println(device.nimed);
 
     }
 

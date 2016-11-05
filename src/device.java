@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -5,24 +6,26 @@ public class device {
     private String name;
     private double power;
     private int channels;
+    private String Power = String.valueOf(power);
+    private String Channels = String.valueOf(channels);
+    public final SimpleStringProperty nimiTabelisse;
+    private final SimpleStringProperty voolTabelisse;
+    private final SimpleStringProperty kanalidTabelisse;
     static ObservableList<String> nimed = FXCollections.observableArrayList();
-   // static ObservableList<Double> voolud = FXCollections.observableArrayList();
-   // static ObservableList<Integer> kanalid = FXCollections.observableArrayList();
 
-
+   
     public device(String nimi, double vool, int kanal){
         this.name = nimi;
         this.power = vool;
         this.channels = kanal;
-
+        this.nimiTabelisse = new SimpleStringProperty(name);
+        this.voolTabelisse = new SimpleStringProperty(Power);
+        this.kanalidTabelisse = new SimpleStringProperty(Channels);
     }
-
-
 
     public void setName(String nimi){
            name = nimi;
         nimed.add(nimi);
-        //System.out.println(name);
     }
 
     public void setPower(double vool){
@@ -35,17 +38,20 @@ public class device {
         ain.kanalid.put(name, channels);
     }
 
-    public String getName(){
-        return name;
+    public SimpleStringProperty getName(){
+        System.out.println(nimiTabelisse);
+        return nimiTabelisse;
+
     }
     public double getPower(String valitudSeadmeNimetus){
        double thisPower = ain.voolud.get(valitudSeadmeNimetus);
-        return thisPower;
+       return thisPower;
 
     }
     public int getChannels(String valitudSeadmeNimetus){
         int thisChannels = ain.kanalid.get(valitudSeadmeNimetus);
         return thisChannels;
     }
+
 
 }
