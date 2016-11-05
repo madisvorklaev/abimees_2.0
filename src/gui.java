@@ -76,6 +76,10 @@ import javafx.stage.Stage;
             grid.add(tootjaComboBox, 0, 1);
             grid.add(new Label("Vali seade: "), 0, 2);
             grid.add(seadmeComboBox, 0, 3);
+            grid.add(new Label("Voolutarve/Võimsus"), 1, 0);
+            grid.add(vool, 1, 1);
+            grid.add(new Label("DMX kanaleid"), 1, 2);
+            grid.add(kanaleid, 1, 3);
             grid.add(new Label("Mitu seadet: "), 0, 4);
             grid.add(seadmeid, 0, 5);
             grid.add(button, 1, 5);
@@ -96,7 +100,6 @@ import javafx.stage.Stage;
                     seadmeKogus = Integer.parseInt(textFieldValue.toString());
                     System.out.println(seadmeKogus);
                     System.out.println(valitudSeadmeNimetus);
-
                 }});
 
             // Drop-down menüü valik
@@ -106,7 +109,25 @@ import javafx.stage.Stage;
                 public void handle(ActionEvent e) {
                     valitudSeadmeNimetus = (String) seadmeComboBox.getSelectionModel().getSelectedItem();
                     System.out.println("ComboBox Action (selected: " + valitudSeadmeNimetus.toString() + ")");
+                    vooluTarbeAken();
+                    dmxKanaliteAken();
                 }});
         }
+            // Voolutarbe aken
+            private void vooluTarbeAken() {
+            device i = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            double voolutarve = i.getPower(valitudSeadmeNimetus);
+            int wattides = (int)voolutarve * 230;
+            vool.setText(String.valueOf(voolutarve) + " A / " + String.valueOf(wattides) + " W");
+            }
+
+        // DMX kanalite aken
+        private void dmxKanaliteAken() {
+            device i = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            int kanalitearv = i.getChannels(valitudSeadmeNimetus);
+            kanaleid.setText(String.valueOf(kanalitearv));
+        }
+
+
 
     }

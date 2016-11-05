@@ -27,12 +27,10 @@ public class readfile {
             device.setPower(power);
             channels = Integer.parseInt(x.next());
             device.setChannels(channels);
-            device.prindi();
+
+            }
 
 
-
-
-        }
 
     }
 
@@ -40,5 +38,6 @@ public class readfile {
     public void closeFile() {
         x.close();
     }
+
 
 }
