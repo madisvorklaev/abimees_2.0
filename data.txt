@@ -1,0 +1,9 @@
+quantum 1.1 510
+viper 2.2 32
+aura 3.3 14
+sharpy 4.4 15
+qwo 5.5 23
+mythos 6.6 44
+pointe 7.7 18
+spiider 8.8 19
+mac101 9.9 13
