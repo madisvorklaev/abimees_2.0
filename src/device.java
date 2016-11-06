@@ -13,7 +13,7 @@ public class device {
     private final SimpleStringProperty kanalidTabelisse;
     static ObservableList<String> nimed = FXCollections.observableArrayList();
 
-   
+
     public device(String nimi, double vool, int kanal){
         this.name = nimi;
         this.power = vool;

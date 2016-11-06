@@ -130,7 +130,7 @@ import javafx.stage.Stage;
             TableColumn jrk = new TableColumn("Nr");
             TableColumn seadmeNimi = new TableColumn("Seadme nimi");
             seadmeNimi.setCellValueFactory(
-                    new PropertyValueFactory<device, String>(nimiTabelisse));
+                    new PropertyValueFactory<device, String>(valitudSeadmeNimetus));
             TableColumn aadress = new TableColumn("Aadress");
 
             patch.setItems(data);
