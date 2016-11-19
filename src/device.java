@@ -9,9 +9,9 @@ public class device {
     private String Power = String.valueOf(power);
     private String Channels = String.valueOf(channels);
     public final SimpleStringProperty nimiTabelisse;
-    private final SimpleStringProperty voolTabelisse;
-    private final SimpleStringProperty kanalidTabelisse;
-    static ObservableList<String> nimed = FXCollections.observableArrayList();
+    public final SimpleStringProperty voolTabelisse;
+    public final SimpleStringProperty kanalidTabelisse;
+    static ObservableList<String> nimed = FXCollections.observableArrayList(); //rippmenyy sisu
 
 
     public device(String nimi, double vool, int kanal){
@@ -23,32 +23,37 @@ public class device {
         this.kanalidTabelisse = new SimpleStringProperty(Channels);
     }
 
-    public void setName(String nimi){
+    public void setName(String nimi){ //väärtus rippmenüü ObservableListi
            name = nimi;
         nimed.add(nimi);
     }
 
-    public void setPower(double vool){
+    public void setPower(double vool){ //väärtus HashMapi, andmete talletamiseks
            power = vool;
         ain.voolud.put(name, power);
     }
 
-    public void setChannels(int kanal){
+    public void setChannels(int kanal){ //väärtus HashMapi, andmete talletamiseks
         channels = kanal;
         ain.kanalid.put(name, channels);
     }
 
-    public SimpleStringProperty getName(){
+    /*public SimpleStringProperty getName(){
         System.out.println(nimiTabelisse);
         return nimiTabelisse;
+        }
+*/  public String getName(String valitudSeadmeNimetus) { //tabeli sisu jaoks
+        String thisName = valitudSeadmeNimetus;
+        return thisName;
+            }
 
-    }
-    public double getPower(String valitudSeadmeNimetus){
+
+    public double getPower(String valitudSeadmeNimetus){    //tabeli sisu jaoks
        double thisPower = ain.voolud.get(valitudSeadmeNimetus);
        return thisPower;
 
     }
-    public int getChannels(String valitudSeadmeNimetus){
+    public int getChannels(String valitudSeadmeNimetus){    //tabeli sisu jaoks
         int thisChannels = ain.kanalid.get(valitudSeadmeNimetus);
         return thisChannels;
     }

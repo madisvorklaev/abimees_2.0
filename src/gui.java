@@ -118,23 +118,32 @@ import javafx.stage.Stage;
         private void populateTable(){
             device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
             patch.setEditable(false);
-            device.getName();
-            String nimiTabelisse = String.valueOf(device.getName());
+            device.getName(valitudSeadmeNimetus);
+            String nimiTabelisse = String.valueOf(device.getName(valitudSeadmeNimetus));
+            Double voolTabelisse = Double.valueOf(device.getPower(valitudSeadmeNimetus));
+            Integer kanalidTabelisse = Integer.valueOf(device.getChannels(valitudSeadmeNimetus));
+
 
             final ObservableList<device> data =
                     FXCollections.observableArrayList(
-                            new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus))
+                            new device(nimiTabelisse, voolTabelisse, kanalidTabelisse)
               );
 
 
-            TableColumn jrk = new TableColumn("Nr");
-            TableColumn seadmeNimi = new TableColumn("Seadme nimi");
+            //TableColumn jrk = new TableColumn("Nr");
+            TableColumn <device, String>seadmeNimi = new TableColumn("Seadme nimi");
             seadmeNimi.setCellValueFactory(
-                    new PropertyValueFactory<device, String>(valitudSeadmeNimetus));
+                    new PropertyValueFactory(valitudSeadmeNimetus));
+            TableColumn vool = new TableColumn("Vool");
+            vool.setCellValueFactory(
+                    new PropertyValueFactory(valitudSeadmeNimetus));
             TableColumn aadress = new TableColumn("Aadress");
+            aadress.setCellValueFactory(
+                    new PropertyValueFactory(valitudSeadmeNimetus));
 
             patch.setItems(data);
-            patch.getColumns().addAll(jrk, seadmeNimi, aadress);
+            patch.getColumns().addAll(seadmeNimi, vool, aadress);
+
 
         }
 
