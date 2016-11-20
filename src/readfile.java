@@ -20,7 +20,7 @@ public class readfile {
     public void readFile() {
         boolean tableExists = false;
         while (x.hasNext()) {
-            device device = new device(name, power, channels);
+            Device device = new Device(name, power, channels);
             name = x.next();
             device.setName(name);
             power = Double.parseDouble(x.next());

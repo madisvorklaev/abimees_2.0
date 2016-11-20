@@ -21,7 +21,7 @@ import javafx.stage.Stage;
         final TextField vool = new TextField("");
         final TextField kanaleid = new TextField("");
         final TextField seadmeid = new TextField("1");
-        private TableView<device> patch = new TableView();
+        private TableView<Device> table = new TableView();
 
         public gui(){
             startStage();
@@ -42,7 +42,7 @@ import javafx.stage.Stage;
                     "SeeEiTöötaPraegu2"
             );
             final ComboBox seadmeComboBox = new ComboBox();
-            seadmeComboBox.setItems(device.nimed);
+            seadmeComboBox.setItems(Device.nimed);
 
 
             // Tabeli pealkiri
@@ -69,7 +69,7 @@ import javafx.stage.Stage;
             grid.add(seadmeid, 0, 5);
             grid.add(button, 1, 5);
             grid.add(label, 0, 7);
-            grid.add(patch, 0, 8);
+            grid.add(table, 0, 8);
 
             Group root = (Group)scene.getRoot();
             root.getChildren().add(grid);
@@ -101,7 +101,7 @@ import javafx.stage.Stage;
 
             // Voolutarbe aken
             private void vooluTarbeAken() {
-            device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
             double voolutarve = device.getPower(valitudSeadmeNimetus);
             int wattides = (int)voolutarve * 230;
             vool.setText(String.valueOf(voolutarve) + " A / " + String.valueOf(wattides) + " W");
@@ -109,40 +109,41 @@ import javafx.stage.Stage;
 
         // DMX kanalite aken
         private void dmxKanaliteAken() {
-            device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
             int kanalitearv = device.getChannels(valitudSeadmeNimetus);
             kanaleid.setText(String.valueOf(kanalitearv));
         }
 
         // Andmed tabelisse
         private void populateTable(){
-            device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
-            patch.setEditable(false);
-            device.getName(valitudSeadmeNimetus);
-            String nimiTabelisse = String.valueOf(device.getName(valitudSeadmeNimetus));
+            //device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            Device device1 = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+            table.setEditable(false);
+            //device.getName(valitudSeadmeNimetus);
+            /*String nimiTabelisse = String.valueOf(device.getName(valitudSeadmeNimetus));
             Double voolTabelisse = Double.valueOf(device.getPower(valitudSeadmeNimetus));
             Integer kanalidTabelisse = Integer.valueOf(device.getChannels(valitudSeadmeNimetus));
+*/
 
-
-            final ObservableList<device> data =
+            final ObservableList<Device> data =
                     FXCollections.observableArrayList(
-                            new device(nimiTabelisse, voolTabelisse, kanalidTabelisse)
+                            device1
+
               );
 
 
-            //TableColumn jrk = new TableColumn("Nr");
-            TableColumn <device, String>seadmeNimi = new TableColumn("Seadme nimi");
+            TableColumn <Device, String>seadmeNimi = new TableColumn("Seadme nimi");
             seadmeNimi.setCellValueFactory(
-                    new PropertyValueFactory(valitudSeadmeNimetus));
+                    new PropertyValueFactory<>("nimiTabelisse"));
             TableColumn vool = new TableColumn("Vool");
             vool.setCellValueFactory(
-                    new PropertyValueFactory(valitudSeadmeNimetus));
+                    new PropertyValueFactory<>("voolTabelisse"));
             TableColumn aadress = new TableColumn("Aadress");
             aadress.setCellValueFactory(
-                    new PropertyValueFactory(valitudSeadmeNimetus));
+                    new PropertyValueFactory<>("kanalidTabelisse"));
 
-            patch.setItems(data);
-            patch.getColumns().addAll(seadmeNimi, vool, aadress);
+            table.setItems(data);
+            table.getColumns().addAll(seadmeNimi, vool, aadress);
 
 
         }

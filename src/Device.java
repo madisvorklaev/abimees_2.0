@@ -2,7 +2,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class device {
+public class Device {
     private String name;
     private double power;
     private int channels;
@@ -14,7 +14,7 @@ public class device {
     static ObservableList<String> nimed = FXCollections.observableArrayList(); //rippmenyy sisu
 
 
-    public device(String nimi, double vool, int kanal){
+    public Device(String nimi, Double vool, Integer kanal){
         this.name = nimi;
         this.power = vool;
         this.channels = kanal;
@@ -22,6 +22,8 @@ public class device {
         this.voolTabelisse = new SimpleStringProperty(Power);
         this.kanalidTabelisse = new SimpleStringProperty(Channels);
     }
+
+
 
     public void setName(String nimi){ //väärtus rippmenüü ObservableListi
            name = nimi;
@@ -44,17 +46,20 @@ public class device {
         }
 */  public String getName(String valitudSeadmeNimetus) { //tabeli sisu jaoks
         String thisName = valitudSeadmeNimetus;
+        System.out.println(thisName);
         return thisName;
             }
 
 
     public double getPower(String valitudSeadmeNimetus){    //tabeli sisu jaoks
        double thisPower = ain.voolud.get(valitudSeadmeNimetus);
+        System.out.println(thisPower);
        return thisPower;
 
     }
     public int getChannels(String valitudSeadmeNimetus){    //tabeli sisu jaoks
         int thisChannels = ain.kanalid.get(valitudSeadmeNimetus);
+        System.out.println(thisChannels);
         return thisChannels;
     }
 
