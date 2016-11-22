@@ -84,6 +84,7 @@ import javafx.stage.Stage;
                     CharSequence textFieldValue = seadmeid.getCharacters();
                     seadmeKogus = Integer.parseInt(textFieldValue.toString());
                     populateTable();
+                    aadressid();
                     System.out.println(seadmeKogus);
                     System.out.println(valitudSeadmeNimetus);
                 }});
@@ -146,6 +147,24 @@ import javafx.stage.Stage;
             table.getColumns().addAll(seadmeNimi, vool, aadress);
 
 
+        }
+
+        private void aadressid(){
+            int lastAddress;
+            int nextAddress;
+            int step = ain.kanalid.get(valitudSeadmeNimetus);
+            for (int i = 0; i < seadmeKogus ; i++) {
+                if (ain.aadressid.isEmpty()){
+                    nextAddress = 1;
+                }
+                else {
+                    int j = ain.aadressid.size()-1;
+                    lastAddress = ain.aadressid.get(j);
+                    nextAddress = lastAddress + step;
+                }
+                ain.aadressid.add(nextAddress);
+            }
+            System.out.println(ain.aadressid);
         }
 
 
