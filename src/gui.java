@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-    public class gui {
+public class gui {
 
         int seadmeKogus = 0;
         String valitudSeadmeNimetus;
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
         final TextField vool = new TextField("");
         final TextField kanaleid = new TextField("");
         final TextField seadmeid = new TextField("1");
-        private TableView<Device> table = new TableView();
+        private TableView <Device> table = new TableView();
 
         public gui(){
             startStage();
@@ -83,8 +84,9 @@ import javafx.stage.Stage;
                 public void handle(ActionEvent e) {
                     CharSequence textFieldValue = seadmeid.getCharacters();
                     seadmeKogus = Integer.parseInt(textFieldValue.toString());
-                    populateTable();
                     aadressid();
+                    populateTable();
+
                     System.out.println(seadmeKogus);
                     System.out.println(valitudSeadmeNimetus);
                 }});
@@ -103,7 +105,7 @@ import javafx.stage.Stage;
             // Voolutarbe aken
             private void vooluTarbeAken() {
             Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
-            double voolutarve = device.getPower(valitudSeadmeNimetus);
+            double voolutarve = device.getPower(ain.voolud.get(valitudSeadmeNimetus));
             int wattides = (int)voolutarve * 230;
             vool.setText(String.valueOf(voolutarve) + " A / " + String.valueOf(wattides) + " W");
             }
@@ -111,44 +113,11 @@ import javafx.stage.Stage;
         // DMX kanalite aken
         private void dmxKanaliteAken() {
             Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
-            int kanalitearv = device.getChannels(valitudSeadmeNimetus);
+            int kanalitearv = device.getChannels(ain.kanalid.get(valitudSeadmeNimetus));
             kanaleid.setText(String.valueOf(kanalitearv));
         }
 
-        // Andmed tabelisse
-        private void populateTable(){
-            //device device = new device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
-            Device device1 = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
-            table.setEditable(false);
-            //device.getName(valitudSeadmeNimetus);
-            /*String nimiTabelisse = String.valueOf(device.getName(valitudSeadmeNimetus));
-            Double voolTabelisse = Double.valueOf(device.getPower(valitudSeadmeNimetus));
-            Integer kanalidTabelisse = Integer.valueOf(device.getChannels(valitudSeadmeNimetus));
-*/
-
-            final ObservableList<Device> data =
-                    FXCollections.observableArrayList(
-                            device1
-
-              );
-
-
-            TableColumn <Device, String>seadmeNimi = new TableColumn("Seadme nimi");
-            seadmeNimi.setCellValueFactory(
-                    new PropertyValueFactory<>("nimiTabelisse"));
-            TableColumn vool = new TableColumn("Vool");
-            vool.setCellValueFactory(
-                    new PropertyValueFactory<>("voolTabelisse"));
-            TableColumn aadress = new TableColumn("Aadress");
-            aadress.setCellValueFactory(
-                    new PropertyValueFactory<>("kanalidTabelisse"));
-
-            table.setItems(data);
-            table.getColumns().addAll(seadmeNimi, vool, aadress);
-
-
-        }
-
+        // Leiab iga järgneva seadme aadressi
         private void aadressid(){
             int lastAddress;
             int nextAddress;
@@ -162,10 +131,44 @@ import javafx.stage.Stage;
                     lastAddress = ain.aadressid.get(j);
                     nextAddress = lastAddress + step;
                 }
+
                 ain.aadressid.add(nextAddress);
             }
             System.out.println(ain.aadressid);
         }
+
+        //ObservableList tabeli jaoks
+        public ObservableList<Device> devicesToTable(){
+            ObservableList<Device> devices = FXCollections.observableArrayList();
+                for (int i = 0; i < seadmeKogus; i++) {
+                    System.out.println("For tsükkel");
+                    devices.add(new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus)));
+
+            }
+
+            return devices;
+        }
+
+        // Andmed tabelisse
+        public void populateTable(){
+            table.setEditable(true);
+
+            TableColumn<Device, String> seadeTabelisse = new TableColumn("Nimetus");
+            seadeTabelisse.setCellValueFactory(
+                    new PropertyValueFactory<>("name"));
+            TableColumn<Device, Double> voolTabelisse = new TableColumn("Voolutarve");
+            voolTabelisse.setCellValueFactory(
+                    new PropertyValueFactory<>("power"));
+            TableColumn<Device, Integer> aadressTabelisse = new TableColumn("Aadress");
+            aadressTabelisse.setCellValueFactory(
+                    new PropertyValueFactory<>("channels"));
+            System.out.println("Devices toTable");
+            table.setItems(devicesToTable());
+            table.getColumns().addAll(seadeTabelisse, voolTabelisse, aadressTabelisse);
+
+
+        }
+
 
 
 

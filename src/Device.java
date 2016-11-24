@@ -1,66 +1,71 @@
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Device {
     private String name;
-    private double power;
-    private int channels;
-    private String Power = String.valueOf(power);
+    private Double power;
+    private Integer channels;
+    /*private String Power = String.valueOf(power);
     private String Channels = String.valueOf(channels);
     public final SimpleStringProperty nimiTabelisse;
     public final SimpleStringProperty voolTabelisse;
-    public final SimpleStringProperty kanalidTabelisse;
+    public final SimpleStringProperty kanalidTabelisse; */
     static ObservableList<String> nimed = FXCollections.observableArrayList(); //rippmenyy sisu
 
 
-    public Device(String nimi, Double vool, Integer kanal){
-        this.name = nimi;
-        this.power = vool;
-        this.channels = kanal;
-        this.nimiTabelisse = new SimpleStringProperty(name);
+    public Device() {
+        this.name = "";
+        this.power = 0.0;
+        this.channels = 0;
+    }
+
+    public Device(String name, double power, int channels){
+        this.name = name;
+        this.power = power;
+        this.channels = channels;
+       /* this.nimiTabelisse = new SimpleStringProperty(name);
         this.voolTabelisse = new SimpleStringProperty(Power);
-        this.kanalidTabelisse = new SimpleStringProperty(Channels);
+        this.kanalidTabelisse = new SimpleStringProperty(Channels); */
     }
 
 
 
-    public void setName(String nimi){ //väärtus rippmenüü ObservableListi
-           name = nimi;
-        nimed.add(nimi);
+    void setName(String name){ //väärtus rippmenüü ObservableListi
+        this.name = name;
+        nimed.add(name);
     }
 
-    public void setPower(double vool){ //väärtus HashMapi, andmete talletamiseks
-           power = vool;
-        ain.voolud.put(name, power);
+    void setPower(Double power){
+        this.power = power;
+        ain.voolud.put(name, power); //väärtus HashMapi, andmete talletamiseks
     }
 
-    public void setChannels(int kanal){ //väärtus HashMapi, andmete talletamiseks
-        channels = kanal;
-        ain.kanalid.put(name, channels);
+    void setChannels(Integer channels){
+        this.channels = channels;
+        ain.kanalid.put(name, channels); //väärtus HashMapi, andmete talletamiseks
     }
 
     /*public SimpleStringProperty getName(){
         System.out.println(nimiTabelisse);
         return nimiTabelisse;
         }
-*/  public String getName(String valitudSeadmeNimetus) { //tabeli sisu jaoks
-        String thisName = valitudSeadmeNimetus;
-        System.out.println(thisName);
-        return thisName;
+*/  public String getName() { //tabeli sisu jaoks
+        //String name = valitudSeadmeNimetus;
+        System.out.println("getName "+ name);
+        return name;
             }
 
 
-    public double getPower(String valitudSeadmeNimetus){    //tabeli sisu jaoks
-       double thisPower = ain.voolud.get(valitudSeadmeNimetus);
-        System.out.println(thisPower);
-       return thisPower;
+    double getPower(Double power){    //tabeli sisu jaoks
+       //double power = ain.voolud.get(valitudSeadmeNimetus);
+        System.out.println("getPower" + power);
+       return power;
 
     }
-    public int getChannels(String valitudSeadmeNimetus){    //tabeli sisu jaoks
-        int thisChannels = ain.kanalid.get(valitudSeadmeNimetus);
-        System.out.println(thisChannels);
-        return thisChannels;
+    int getChannels(Integer channels){    //tabeli sisu jaoks
+        //int thisChannels = ain.kanalid.get(valitudSeadmeNimetus);
+        System.out.println("getChannels" + channels);
+        return channels;
     }
 
 
