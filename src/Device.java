@@ -5,11 +5,7 @@ public class Device {
     public String name;
     public Double power;
     public Integer channels;
-    /*private String Power = String.valueOf(power);
-    private String Channels = String.valueOf(channels);
-    public final SimpleStringProperty nimiTabelisse;
-    public final SimpleStringProperty voolTabelisse;
-    public final SimpleStringProperty kanalidTabelisse; */
+
     static ObservableList<String> nimed = FXCollections.observableArrayList(); //rippmenyy sisu
 
     public Device(String name, Double power, Integer channels) {

@@ -18,8 +18,7 @@ public class readfile {
     }
 
     public void readFile() {
-        boolean tableExists = false;
-        while (x.hasNext()) {
+            while (x.hasNext()) {
             Device device = new Device(name, power, channels);
             name = x.next();
             device.setName(name);
