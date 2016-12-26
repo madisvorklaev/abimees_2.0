@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -23,7 +24,7 @@ public class gui {
     int nextPossibleAddress = 1;
     int dmxUniverse = 1;
     double voolKokku = 0;
-    String valitudSeadmeNimetus;
+    String valitudSeadmeNimetus = "";
 
     // Nupud - tekstiväljad
     final Button addButton = new Button("Lisa");
@@ -83,7 +84,7 @@ public class gui {
         grid.add(linkeKokku, 1,7);
         grid.add(label, 0, 7);
         grid.add(table, 0, 8);
-        grid.add(clearButton, 0,9);
+        grid.add(clearButton, 1,8);
 
         Group root = (Group)scene.getRoot();
         root.getChildren().add(grid);
@@ -96,15 +97,20 @@ public class gui {
             @Override
             public void handle(ActionEvent e) {
                 CharSequence textFieldValue = seadmeid.getCharacters();
-                seadmeKogus = Integer.parseInt(textFieldValue.toString());
-                aadressid();
-                populateTable();
-                setVooluTarveKokku();
-                setLinkeKokku();
+                String kontroll = textFieldValue.toString();
+                if (!kontroll.isEmpty() && kontroll.matches("\\d*") && !valitudSeadmeNimetus.isEmpty()){
+                    seadmeKogus = Integer.parseInt(textFieldValue.toString());
+                    aadressid();
+                    populateTable();
+                    setVooluTarveKokku();
+                    setLinkeKokku();
+                }
+                else{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Vali seade ja sisesta seadmete arv!", ButtonType.OK);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.show();
 
-                System.out.println(seadmeKogus);
-                System.out.println(valitudSeadmeNimetus);
-            }});
+            }}});
 
         clearButton.setOnAction(new EventHandler<ActionEvent>() {
 
