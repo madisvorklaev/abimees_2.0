@@ -28,7 +28,7 @@ public class Device {
     }
 
     public void setPower(Double power) {
-        ain.voolud.put(name, power); //väärtus HashMapi, andmete talletamiseks
+        gui.voolud.put(name, power); //väärtus HashMapi, andmete talletamiseks
         this.power = power;
     }
 
@@ -37,7 +37,7 @@ public class Device {
     }
 
     public void setChannels(Integer channels) {
-        ain.kanalid.put(name, channels); //väärtus HashMapi, andmete talletamiseks
+        gui.kanalid.put(name, channels); //väärtus HashMapi, andmete talletamiseks
         this.channels = channels;
     }
 }

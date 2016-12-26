@@ -1,9 +1,11 @@
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class gui {
 
@@ -35,7 +38,14 @@ public class gui {
     final TextField vooluTarveKokku = new TextField("");
     final TextField linkeKokku = new TextField("");
     private TableView <Device> table = new TableView();
+
+    // Massiivid
     public static ArrayList<Integer> universe = new ArrayList();
+    public static ArrayList<Integer> aadressid = new ArrayList(); //Aadresside generaator patch listi jaoks
+
+    static HashMap<String, Double> voolud = new HashMap<>();
+    static HashMap<String, Integer> kanalid = new HashMap<>();
+    
     ObservableList<Device> devicesToTable = FXCollections.observableArrayList();
 
     public gui(){
@@ -47,7 +57,7 @@ public class gui {
         Stage stage = new Stage();
         stage.setTitle("Java projekt 2.0");
         Scene scene = new Scene(new Group());
-        stage.setWidth(510);
+        stage.setWidth(480);
         stage.setHeight(720);
 
         Image img = new Image("file:eventech.jpg");
@@ -76,15 +86,19 @@ public class gui {
         grid.add(kanaleid, 1, 3);
         grid.add(new Label("Mitu seadet: "), 0, 3);
         grid.add(seadmeid, 0, 4);
-        seadmeid.setMaxWidth(80);
-        grid.add(addButton, 0, 5);
+        grid.add(addButton, 0, 4);
+        grid.add(clearButton, 0,4);
         grid.add(new Label("Voolutarve kokku"), 1, 4);
         grid.add(vooluTarveKokku, 1,5);
         grid.add(new Label("DMX linke"), 1,6);
         grid.add(linkeKokku, 1,7);
         grid.add(label, 0, 7);
         grid.add(table, 0, 8);
-        grid.add(clearButton, 1,8);
+        GridPane.setHalignment(addButton, HPos.CENTER);
+        GridPane.setHalignment(clearButton, HPos.RIGHT);
+        seadmeid.setMaxWidth(80);
+        table.setMaxWidth(250);
+
 
         Group root = (Group)scene.getRoot();
         root.getChildren().add(grid);
@@ -132,7 +146,7 @@ public class gui {
 
     // Voolutarbe aken
     private double vooluTarbeAken() {
-        Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+        Device device = new Device(valitudSeadmeNimetus, voolud.get(valitudSeadmeNimetus), kanalid.get(valitudSeadmeNimetus));
         double voolutarve = device.getPower();
         int wattides = (int)voolutarve * 230;
         vool.setText(String.valueOf(voolutarve) + " A / " + String.valueOf(wattides) + " W");
@@ -142,15 +156,14 @@ public class gui {
 
     // DMX kanalite aken
     private void dmxKanaliteAken() {
-        Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+        Device device = new Device(valitudSeadmeNimetus, voolud.get(valitudSeadmeNimetus), kanalid.get(valitudSeadmeNimetus));
         int kanalitearv = device.getChannels();
         kanaleid.setText(String.valueOf(kanalitearv));
     }
 
     // Arvutab kogu voolutarbe
-
     private void setVooluTarveKokku(){
-        Device device = new Device(valitudSeadmeNimetus, ain.voolud.get(valitudSeadmeNimetus), ain.kanalid.get(valitudSeadmeNimetus));
+        Device device = new Device(valitudSeadmeNimetus, voolud.get(valitudSeadmeNimetus), kanalid.get(valitudSeadmeNimetus));
         for (int i = 0; i < seadmeKogus ; i++){
         double voolutarve = device.getPower();
         voolKokku = voolKokku + voolutarve;
@@ -162,10 +175,10 @@ public class gui {
     // Leiab iga järgneva seadme aadressi ja universe
     private void aadressid(){
         int nextAddress = 1;
-        int step = ain.kanalid.get(valitudSeadmeNimetus);
+        int step = kanalid.get(valitudSeadmeNimetus);
 
         for (int i = 0; i < seadmeKogus ; i++) {
-                  if (ain.aadressid.isEmpty()) {
+                  if (aadressid.isEmpty()) {
                     nextAddress = nextPossibleAddress;
                     nextPossibleAddress = nextPossibleAddress + step;
                       universe.add(dmxUniverse);
@@ -179,12 +192,12 @@ public class gui {
                       dmxUniverse += 1;
                   }
 
-                ain.aadressid.add(nextAddress);
+                aadressid.add(nextAddress);
             }
 
-            System.out.println(dmxUniverse + "DMX");
+            System.out.println(Integer.toBinaryString(nextAddress));
 
-        System.out.println(ain.aadressid);
+        System.out.println(aadressid);
         System.out.println(universe);
             }
 
@@ -197,7 +210,7 @@ public class gui {
     private ObservableList<Device> devicesToTable(){
         int listipikkus = devicesToTable.size();
         for (int i = listipikkus; i < listipikkus + seadmeKogus; i++) {
-            devicesToTable.add(new Device(valitudSeadmeNimetus,ain.voolud.get(valitudSeadmeNimetus) , ain.aadressid.get(i)));
+            devicesToTable.add(new Device(valitudSeadmeNimetus,voolud.get(valitudSeadmeNimetus) , aadressid.get(i)));
 
         }
 
@@ -239,9 +252,11 @@ public class gui {
 
         // Ülejäänud veerud
         TableColumn<Device, String> seadeTabelisse = new TableColumn("Nimetus");
-        seadeTabelisse.setMinWidth(150);
+        seadeTabelisse.setMinWidth(100);
+        seadeTabelisse.setMaxWidth(100);
         TableColumn<Device, Integer> aadressTabelisse = new TableColumn("Aadress");
-        aadressTabelisse.setMinWidth(75);
+        aadressTabelisse.setMinWidth(55);
+        aadressTabelisse.setMaxWidth(55);
 
         seadeTabelisse.setCellValueFactory(
                 new PropertyValueFactory<>("name"));
@@ -251,11 +266,30 @@ public class gui {
         table.getColumns().addAll(numberCol, seadeTabelisse, aadressTabelisse);
 
 
+        //Tabeli ridade valimine http://stackoverflow.com/questions/17388866/getting-selected-item-from-a-javafx-tableview
+        table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                //Check whether item is selected and set value of selected item to Label
+                if(table.getSelectionModel().getSelectedItem() != null)
+                {
+                    TableView.TableViewSelectionModel selectionModel = table.getSelectionModel();
+                    ObservableList selectedCells = selectionModel.getSelectedCells();
+                    TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+                    Object val = tablePosition.getTableColumn().getCellData(newValue);
+                    System.out.println("Selected Value" + val);
+                }
+            }
+        });
+
+
     }
+
+
 
     public void  clearAll(){
         table.getColumns().clear();
-        ain.aadressid.clear();
+        aadressid.clear();
         universe.clear();
         vooluTarveKokku.clear();
         linkeKokku.clear();
@@ -270,7 +304,4 @@ public class gui {
 
 
     }
-
-
-
 }
