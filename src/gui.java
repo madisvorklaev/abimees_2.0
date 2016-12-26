@@ -37,6 +37,7 @@ public class gui {
     final TextField seadmeid = new TextField("1");
     final TextField vooluTarveKokku = new TextField("");
     final TextField linkeKokku = new TextField("");
+    final TextField binaryAddress = new TextField("");
     private TableView <Device> table = new TableView();
 
     // Massiivid
@@ -94,6 +95,7 @@ public class gui {
         grid.add(linkeKokku, 1,7);
         grid.add(label, 0, 7);
         grid.add(table, 0, 8);
+        grid.add(binaryAddress, 1, 8);
         GridPane.setHalignment(addButton, HPos.CENTER);
         GridPane.setHalignment(clearButton, HPos.RIGHT);
         seadmeid.setMaxWidth(80);
@@ -195,7 +197,7 @@ public class gui {
                 aadressid.add(nextAddress);
             }
 
-            System.out.println(Integer.toBinaryString(nextAddress));
+          //  System.out.println(Integer.toBinaryString(nextAddress));
 
         System.out.println(aadressid);
         System.out.println(universe);
@@ -278,6 +280,11 @@ public class gui {
                     TablePosition tablePosition = (TablePosition) selectedCells.get(0);
                     Object val = tablePosition.getTableColumn().getCellData(newValue);
                     System.out.println("Selected Value" + val);
+                    String binary = Integer.toBinaryString((Integer) val);
+                    while (binary.length()<9){
+                        binary = binary+"0";
+                    }
+                    binaryAddress.setText(binary);
                 }
             }
         });
