@@ -96,8 +96,10 @@ public class gui {
         grid.add(label, 0, 7);
         grid.add(table, 0, 8);
         grid.add(binaryAddress, 1, 8);
+        grid.add(new Label("                     DIP switch"), 1,8);
         GridPane.setHalignment(addButton, HPos.CENTER);
         GridPane.setHalignment(clearButton, HPos.RIGHT);
+        GridPane.setHalignment(binaryAddress, HPos.RIGHT );
         seadmeid.setMaxWidth(80);
         table.setMaxWidth(250);
 
@@ -279,7 +281,7 @@ public class gui {
                     ObservableList selectedCells = selectionModel.getSelectedCells();
                     TablePosition tablePosition = (TablePosition) selectedCells.get(0);
                     Object val = tablePosition.getTableColumn().getCellData(newValue);
-                    System.out.println("Selected Value" + val);
+                    //System.out.println("Selected Value" + val);
                     String binary = Integer.toBinaryString((Integer) val);
                     while (binary.length()<9){
                         binary = binary+"0";
@@ -301,6 +303,7 @@ public class gui {
         vooluTarveKokku.clear();
         linkeKokku.clear();
         seadmeid.clear();
+        binaryAddress.clear();
         devicesToTable.removeAll();
         seadmeKogus = 0;
         nextPossibleAddress = 1;
