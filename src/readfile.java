@@ -6,7 +6,6 @@ public class readfile {
     private double power;
     private int channels;
 
-
     private Scanner x;
 
     public void openFile() {
@@ -26,17 +25,10 @@ public class readfile {
             device.setPower(power);
             channels = Integer.parseInt(x.next());
             device.setChannels(channels);
-
             }
-
-
-
     }
-
 
     public void closeFile() {
         x.close();
     }
-
-
 }

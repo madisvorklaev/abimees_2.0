@@ -5,7 +5,6 @@ public class Device {
     public String name;
     public Double power;
     public Integer channels;
-
     static ObservableList<String> nimed = FXCollections.observableArrayList(); //rippmenyy sisu
 
     public Device(String name, Double power, Integer channels) {
@@ -37,7 +36,7 @@ public class Device {
     }
 
     public void setChannels(Integer channels) {
-        gui.kanalid.put(name, channels); //väärtus HashMapi, andmete talletamiseks
+        gui.kanalid.put(name, channels); //väärtus HashMapi andmete talletamiseks
         this.channels = channels;
     }
 }

@@ -11,11 +11,6 @@ public class ain extends Application {
         readfile.readFile();
         readfile.closeFile();
         new gui();
-            //System.out.println(Device.nimed);
-            //System.out.println(voolud);
-
-    }
-
-
+        }
 }
 
